@@ -1,25 +1,28 @@
 # src/utils/image_processing.py
-
 import numpy as np
+from config import Config
 
 class GemDetector:
     def __init__(self):
-        # Define color ranges for each gem type
-        # These values need to be adjusted based on the actual colors in your game
-        self.gem_colors = {
-            'red': ([150, 0, 0], [255, 100, 100]),
-            'blue': ([0, 0, 150], [100, 100, 255]),
-            'green': ([0, 150, 0], [100, 255, 100]),
-            'yellow': ([150, 150, 0], [255, 255, 100]),
-            'purple': ([150, 0, 150], [255, 100, 255]),
-            # Add more colors as needed
-        }
+        self.gem_colors = Config.GEMS_HSV
+
+    def hue_distance(self, h1, h2):
+        diff = abs(h1 - h2)
+        return min(diff, 360 - diff)
+
+    def hsv_distance(self, hsv1, hsv2):
+        h1, s1, v1 = hsv1
+        h2, s2, v2 = hsv2
+        dh = self.hue_distance(h1, h2) / 180.0  # Normalize to [0, 1]
+        ds = abs(s1 - s2) / 100.0
+        dv = abs(v1 - v2) / 100.0
+        return np.sqrt(dh*dh + ds*ds + dv*dv)
 
     def detect_gem(self, color):
-        for gem_type, (lower, upper) in self.gem_colors.items():
-            if np.all(color >= lower) and np.all(color <= upper):
-                return gem_type
-        return None
+        distances = {gem: self.hsv_distance(color, hsv) for gem, hsv in self.gem_colors.items()}
+        closest_gem = min(distances, key=distances.get)
+        # The print statement has been removed from here
+        return closest_gem
 
     def process_grid(self, grid):
         processed_grid = []
@@ -30,14 +33,3 @@ class GemDetector:
                 processed_row.append(gem)
             processed_grid.append(processed_row)
         return processed_grid
-
-# Example usage
-if __name__ == "__main__":
-    detector = GemDetector()
-    # This is a mock grid, replace with actual data from ScreenCapture
-    mock_grid = [
-        [[255, 0, 0], [0, 255, 0]],
-        [[0, 0, 255], [255, 255, 0]]
-    ]
-    processed_grid = detector.process_grid(mock_grid)
-    print(processed_grid)

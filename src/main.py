@@ -1,6 +1,6 @@
 # src/main.py
 
-import logging
+import sys
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import QTimer
 from gui import MainWindow
@@ -11,7 +11,7 @@ from config import Config
 
 class DragonChessAssistant:
     def __init__(self):
-        self.app = QApplication([])
+        self.app = QApplication(sys.argv)
         self.window = MainWindow()
         self.screen_capture = ScreenCapture(
             x=Config.GRID_START_X,
@@ -32,22 +32,17 @@ class DragonChessAssistant:
 
     def update(self):
         if self.window.assistant_active:
-            grid = self.screen_capture.get_grid(rows=Config.GRID_SIZE, cols=Config.GRID_SIZE)
-            gem_grid = self.gem_detector.process_grid(grid)
+            hsv_grid = self.screen_capture.get_grid()
+            gem_grid = self.gem_detector.process_grid(hsv_grid)
             self.board_state.update_grid(gem_grid)
             moves = self.move_finder.find_moves(self.board_state.grid)
             self.window.overlay.update_moves(moves)
-            
             if self.window.debug_active:
-                self.window.debug_window.update_grid(gem_grid)
-            
-            logging.debug(f"Current board state:\n{self.board_state}")
-            logging.debug(f"Possible moves: {moves}")
+                self.window.debug_window.update_grid(gem_grid, hsv_grid)
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
     assistant = DragonChessAssistant()
-    assistant.start()
+    sys.exit(assistant.start())
 
 if __name__ == "__main__":
     main()

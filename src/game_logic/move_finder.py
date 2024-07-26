@@ -31,16 +31,38 @@ class MoveFinder:
         return valid
 
     def _check_matches(self, grid, r, c):
+        gem = grid[r][c]
+        if gem is None:
+            return False
+
         # Check for horizontal matches
-        if c > 1 and grid[r][c] == grid[r][c-1] == grid[r][c-2]:
+        count = 1
+        for i in range(1, 3):
+            if c - i >= 0 and grid[r][c-i] == gem:
+                count += 1
+            else:
+                break
+        for i in range(1, 3):
+            if c + i < self.cols and grid[r][c+i] == gem:
+                count += 1
+            else:
+                break
+        if count >= 3:
             return True
-        if c < self.cols - 2 and grid[r][c] == grid[r][c+1] == grid[r][c+2]:
-            return True
-        
+
         # Check for vertical matches
-        if r > 1 and grid[r][c] == grid[r-1][c] == grid[r-2][c]:
+        count = 1
+        for i in range(1, 3):
+            if r - i >= 0 and grid[r-i][c] == gem:
+                count += 1
+            else:
+                break
+        for i in range(1, 3):
+            if r + i < self.rows and grid[r+i][c] == gem:
+                count += 1
+            else:
+                break
+        if count >= 3:
             return True
-        if r < self.rows - 2 and grid[r][c] == grid[r+1][c] == grid[r+2][c]:
-            return True
-        
+
         return False

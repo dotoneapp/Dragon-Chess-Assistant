@@ -2,32 +2,19 @@
 
 class Config:
     GRID_SIZE = 8
-    BOX_SIZE = 90  # Adjust this value if needed
-    GRID_START_X = 224  # Adjust this value to match your screen
-    GRID_START_Y = 132  # Adjust this value to match your screen
-    CHECK_INTERVAL = 0.5  # seconds
-    TOLERANCE = 10  # Tolerance for RGB matching
+    BOX_SIZE = 90
+    GRID_START_X = 224
+    GRID_START_Y = 132
+    CHECK_INTERVAL = 0.5
 
-    # RGB values for each gem type
-    GEMS_RGB = {
-        "R": [
-            (55, 31, 39), (59, 39, 50), (65, 37, 44), (67, 44, 53), (94, 50, 61)
-        ],
-        "P": [
-            (104, 57, 109), (109, 64, 119), (113, 72, 126), (117, 67, 119), (123, 75, 132)
-        ],
-        "G": [
-            (60, 99, 109), (61, 65, 70), (64, 106, 117), (67, 114, 125), (81, 120, 139)
-        ],
-        "Y": [
-            (138, 112, 89), (75, 74, 77), (146, 120, 95), (133, 113, 108), (132, 105, 82)
-        ],
-        "B": [
-            (69, 75, 123), (58, 63, 110), (92, 117, 157), (71, 86, 129), (63, 69, 117)
-        ],
-        "O": [
-            (120, 60, 56), (149, 89, 52), (114, 48, 42), (116, 53, 50), (129, 66, 59)
-        ],
+    # HSV values for each gem type
+    GEMS_HSV = {
+        "R": (312, 24, 30),
+        "P": (251, 40, 66),
+        "G": (184, 74, 69),
+        "Y": (342, 22, 94),
+        "B": (211, 36, 82),
+        "O": (17, 55, 96)
     }
 
 # Add the base64 string here
