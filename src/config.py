@@ -6,15 +6,16 @@ class Config:
     GRID_START_X = 224
     GRID_START_Y = 132
     CHECK_INTERVAL = 0.5
+    COLOR_TOLERANCE = 30  # New parameter for color detection threshold
 
     # HSV values for each gem type
     GEMS_HSV = {
-        "R": (312, 24, 30),
-        "P": (251, 40, 66),
-        "G": (184, 74, 69),
-        "Y": (342, 22, 94),
-        "B": (211, 36, 82),
-        "O": (17, 55, 96)
+        "R": (352, 64, 29),
+        "P": (294, 50, 80),
+        "G": (184, 49, 70),
+        "Y": (34, 40, 90),
+        "B": (232, 58, 74),
+        "O": (14, 75, 80)
     }
 
 # Add the base64 string here
